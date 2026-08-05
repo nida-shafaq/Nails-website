@@ -20,6 +20,7 @@ import { customOrdersRouter } from "./routes/custom-orders";
 import { checkoutRouter } from "./routes/checkout";
 import { webhooksRouter } from "./routes/webhooks";
 import { reviewsRouter } from "./routes/reviews";
+import { adminRouter } from "./routes/admin";
 
 export type Env = {
   DB: D1Database;
@@ -69,6 +70,7 @@ app.route("/api/v1/custom-orders", customOrdersRouter);
 app.route("/api/v1/checkout", checkoutRouter);
 app.route("/api/v1/webhooks", webhooksRouter);
 app.route("/api/v1/reviews", reviewsRouter);
+app.route("/api/v1/admin", adminRouter);
 
 // Health check
 app.get("/health", (c) => c.json({ status: "ok", timestamp: new Date().toISOString() }));

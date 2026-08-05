@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, DM_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { CartDrawer } from "@/components/layout/CartDrawer";
 import { Toaster } from "@/components/ui/toaster";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import Script from "next/script";
@@ -83,7 +80,8 @@ interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({ children }: RootLayoutProps) {
+
   return (
     <html
       lang="en"
@@ -100,10 +98,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         fontFamily: "var(--font-body-loaded, var(--font-body))",
       }}>
         <NuqsAdapter>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <CartDrawer />
+          {children}
           <Toaster />
         </NuqsAdapter>
       </body>
