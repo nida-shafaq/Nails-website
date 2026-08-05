@@ -75,6 +75,15 @@ app.route("/api/v1/admin", adminRouter);
 // Health check
 app.get("/health", (c) => c.json({ status: "ok", timestamp: new Date().toISOString() }));
 
+// Root friendly message
+app.get("/", (c) => {
+  return c.json({
+    message: "Welcome to the NailVibe API \u2728",
+    status: "online",
+    docs: "All endpoints are under /api/v1"
+  });
+});
+
 // 404 fallback
 app.notFound((c) => c.json({ error: "Route not found" }, 404));
 

@@ -1,17 +1,17 @@
-name = "lacquered-api"
+name = "nailvibe-api"
 main = "src/index.ts"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
 [[d1_databases]]
 binding = "DB"
-database_name = "lacquered-db"
-database_id = "YOUR_D1_DATABASE_ID"
+database_name = "nailvibe-db"
+database_id = "e6610175-ee8c-406c-b646-a0b4b68561f6"
 migrations_dir = "drizzle"
 
-[[r2_buckets]]
-binding = "ASSETS"
-bucket_name = "lacquered-assets"
+# [[r2_buckets]]
+# binding = "ASSETS"
+# bucket_name = "lacquered-assets"
 
 [vars]
 ENVIRONMENT = "development"

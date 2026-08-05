@@ -37,14 +37,14 @@ var __publicField = (obj, key, value) => {
   return value;
 };
 
-// .wrangler/tmp/bundle-IK201y/strip-cf-connecting-ip-header.js
+// .wrangler/tmp/bundle-2Sposw/strip-cf-connecting-ip-header.js
 function stripCfConnectingIPHeader(input, init) {
   const request = new Request(input, init);
   request.headers.delete("CF-Connecting-IP");
   return request;
 }
 var init_strip_cf_connecting_ip_header = __esm({
-  ".wrangler/tmp/bundle-IK201y/strip-cf-connecting-ip-header.js"() {
+  ".wrangler/tmp/bundle-2Sposw/strip-cf-connecting-ip-header.js"() {
     "use strict";
     __name(stripCfConnectingIPHeader, "stripCfConnectingIPHeader");
     globalThis.fetch = new Proxy(globalThis.fetch, {
@@ -4647,14 +4647,14 @@ var require_lib = __commonJS({
   }
 });
 
-// .wrangler/tmp/bundle-IK201y/middleware-loader.entry.ts
+// .wrangler/tmp/bundle-2Sposw/middleware-loader.entry.ts
 init_strip_cf_connecting_ip_header();
 init_modules_watch_stub();
 init_virtual_unenv_global_polyfill_cloudflare_unenv_preset_node_process();
 init_virtual_unenv_global_polyfill_cloudflare_unenv_preset_node_console();
 init_performance2();
 
-// .wrangler/tmp/bundle-IK201y/middleware-insertion-facade.js
+// .wrangler/tmp/bundle-2Sposw/middleware-insertion-facade.js
 init_strip_cf_connecting_ip_header();
 init_modules_watch_stub();
 init_virtual_unenv_global_polyfill_cloudflare_unenv_preset_node_process();
@@ -27596,6 +27596,13 @@ app.route("/api/v1/webhooks", router4);
 app.route("/api/v1/reviews", router5);
 app.route("/api/v1/admin", adminRouter);
 app.get("/health", (c) => c.json({ status: "ok", timestamp: (/* @__PURE__ */ new Date()).toISOString() }));
+app.get("/", (c) => {
+  return c.json({
+    message: "Welcome to the NailVibe API \u2728",
+    status: "online",
+    docs: "All endpoints are under /api/v1"
+  });
+});
 app.notFound((c) => c.json({ error: "Route not found" }, 404));
 app.onError((err, c) => {
   console.error("Unhandled error:", err);
@@ -27654,7 +27661,7 @@ var jsonError = /* @__PURE__ */ __name(async (request, env2, _ctx, middlewareCtx
 }, "jsonError");
 var middleware_miniflare3_json_error_default = jsonError;
 
-// .wrangler/tmp/bundle-IK201y/middleware-insertion-facade.js
+// .wrangler/tmp/bundle-2Sposw/middleware-insertion-facade.js
 var __INTERNAL_WRANGLER_MIDDLEWARE__ = [
   middleware_ensure_req_body_drained_default,
   middleware_miniflare3_json_error_default
@@ -27691,7 +27698,7 @@ function __facade_invoke__(request, env2, ctx, dispatch, finalMiddleware) {
 }
 __name(__facade_invoke__, "__facade_invoke__");
 
-// .wrangler/tmp/bundle-IK201y/middleware-loader.entry.ts
+// .wrangler/tmp/bundle-2Sposw/middleware-loader.entry.ts
 var __Facade_ScheduledController__ = class {
   constructor(scheduledTime, cron, noRetry) {
     this.scheduledTime = scheduledTime;
