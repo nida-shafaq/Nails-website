@@ -42,7 +42,7 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center p-4 bg-[#F8F5F0]">
       {/* Card Container */}
-      <div className="w-full max-w-[420px] bg-white rounded-3xl p-8 sm:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.08)] border border-neutral-200/80 space-y-6">
+      <div className="w-full max-w-105 bg-white rounded-[24px] p-8 sm:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.06)] border border-neutral-200/60 flex flex-col space-y-6 relative z-10 overflow-hidden">
         
         {/* Branding & Header */}
         <div className="flex flex-col items-center space-y-4 text-center">

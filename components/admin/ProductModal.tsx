@@ -44,18 +44,18 @@ export function ProductModal({ isOpen, onClose, product }: ProductModalProps) {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-[--color-obsidian] mb-2">Product Title</label>
-                <input type="text" className="w-full px-3 py-2 border border-chrome rounded-lg focus:outline-none focus:border-obsidian" placeholder="e.g. Cherry Noir" />
+                <input type="text" className="w-full px-3 py-2 border border-[--color-chrome] rounded-lg focus:outline-none focus:border-obsidian" placeholder="e.g. Cherry Noir" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-[--color-obsidian] mb-2">Price (USD)</label>
-                <input type="number" className="w-full px-3 py-2 border border-chrome rounded-lg focus:outline-none focus:border-obsidian" placeholder="28.00" />
+                <input type="number" className="w-full px-3 py-2 border border-[--color-chrome] rounded-lg focus:outline-none focus:border-obsidian" placeholder="28.00" />
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-[--color-obsidian] mb-2">Finish</label>
-                <select className="w-full px-3 py-2 border border-chrome rounded-lg focus:outline-none focus:border-obsidian">
+                <select className="w-full px-3 py-2 border border-[--color-chrome] rounded-lg focus:outline-none focus:border-obsidian">
                   <option>Glossy</option>
                   <option>Matte</option>
                   <option>Chrome</option>
@@ -66,7 +66,7 @@ export function ProductModal({ isOpen, onClose, product }: ProductModalProps) {
                 <label className="block text-sm font-medium text-[--color-obsidian] mb-2">Swatch Hex Color</label>
                 <div className="flex gap-2">
                   <input type="color" className="w-10 h-10 p-1 border border-[--color-chrome] rounded-lg cursor-pointer" />
-                  <input type="text" className="w-full px-3 py-2 border border-chrome rounded-lg focus:outline-none focus:border-obsidian" placeholder="#8B1A3A" />
+                  <input type="text" className="w-full px-3 py-2 border border-[--color-chrome] rounded-lg focus:outline-none focus:border-obsidian" placeholder="#8B1A3A" />
                 </div>
               </div>
             </div>

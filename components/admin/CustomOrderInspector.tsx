@@ -188,7 +188,7 @@ export function CustomOrderInspector({ isOpen, onClose, order }: CustomOrderInsp
               <div className="flex flex-col gap-6">
                 <div>
                   <h3 className="font-medium text-obsidian mb-2 text-sm">Client Instructions</h3>
-                  <div className="bg-yellow-50/50 rounded-xl border border-yellow-200 p-4 text-sm text-obsidian leading-relaxed shadow-sm min-h-[100px]">
+                  <div className="bg-yellow-50/50 rounded-xl border border-yellow-200 p-4 text-sm text-obsidian leading-relaxed shadow-sm min-h-25">
                     {order.notes || "No special instructions provided by the client."}
                   </div>
                 </div>
@@ -201,7 +201,7 @@ export function CustomOrderInspector({ isOpen, onClose, order }: CustomOrderInsp
                     value={internalNotes}
                     onChange={(e) => setInternalNotes(e.target.value)}
                     placeholder="E.g. Use DND Gel #014 for base, double cure the charms..."
-                    className="w-full bg-white rounded-xl border border-chrome p-4 text-sm text-obsidian leading-relaxed shadow-sm min-h-[120px] focus:outline-none focus:border-obsidian focus:ring-1 focus:ring-obsidian resize-none"
+                    className="w-full bg-white rounded-xl border border-chrome p-4 text-sm text-obsidian leading-relaxed shadow-sm min-h-30 focus:outline-none focus:border-obsidian focus:ring-1 focus:ring-obsidian resize-none"
                   />
                 </div>
               </div>
