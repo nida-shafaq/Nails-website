@@ -15,6 +15,7 @@ const MOCK_PRODUCTS = [
     swatchColor: "#8B1A3A",
     imageUrl: "/images/products/cherry-noir.png",
     shapes: ["Coffin", "Almond", "Square"],
+    lengths: ["Medium", "Long", "XL"],
     finish: "Glossy",
   },
   {
@@ -25,6 +26,7 @@ const MOCK_PRODUCTS = [
     swatchColor: "#2C1B3E",
     imageUrl: "/images/products/midnight-fig.png",
     shapes: ["Almond", "Stiletto"],
+    lengths: ["Short", "Medium"],
     finish: "Matte",
   },
   {
@@ -35,6 +37,7 @@ const MOCK_PRODUCTS = [
     swatchColor: "#C9963E",
     imageUrl: "/images/products/gilt-hour.png",
     shapes: ["Stiletto", "Coffin"],
+    lengths: ["Long", "XL"],
     finish: "Chrome",
   },
   {
@@ -45,6 +48,7 @@ const MOCK_PRODUCTS = [
     swatchColor: "#B8A898",
     imageUrl: "/images/products/ash-rose.png",
     shapes: ["Square", "Oval", "Almond"],
+    lengths: ["Short", "Medium", "Long"],
     finish: "Glossy",
   },
   {
@@ -55,6 +59,7 @@ const MOCK_PRODUCTS = [
     swatchColor: "#4A3728",
     imageUrl: "/images/products/espresso.png",
     shapes: ["Oval", "Almond", "Square"],
+    lengths: ["Short", "Medium"],
     finish: "Matte",
   },
   {
@@ -65,6 +70,7 @@ const MOCK_PRODUCTS = [
     swatchColor: "#1A2E3E",
     imageUrl: "/images/products/abyss.png",
     shapes: ["Coffin", "Square", "Stiletto"],
+    lengths: ["Medium", "Long", "XL"],
     finish: "Glitter",
   },
   {
@@ -75,6 +81,7 @@ const MOCK_PRODUCTS = [
     swatchColor: "#F5F5DC",
     imageUrl: "/images/products/bridal-pearl-cascade.png",
     shapes: ["Almond", "Oval"],
+    lengths: ["Short", "Medium", "Long"],
     finish: "Glossy",
     collection: "bridal",
   },
@@ -86,6 +93,7 @@ const MOCK_PRODUCTS = [
     swatchColor: "#FADADD",
     imageUrl: "/images/products/bridal-blush-elegance.png",
     shapes: ["Coffin", "Square"],
+    lengths: ["Medium", "Long"],
     finish: "Matte",
     collection: "bridal",
   },
@@ -97,6 +105,7 @@ const MOCK_PRODUCTS = [
     swatchColor: "#FFFFFF",
     imageUrl: "/images/products/bridal-lace-aura.png",
     shapes: ["Stiletto", "Almond"],
+    lengths: ["Medium", "Long", "XL"],
     finish: "Chrome",
     collection: "bridal",
   },
@@ -108,6 +117,7 @@ const MOCK_PRODUCTS = [
     swatchColor: "#D87A8F",
     imageUrl: "/images/products/bridal-4.png",
     shapes: ["Almond", "Oval"],
+    lengths: ["Short", "Medium", "Long"],
     finish: "Glossy",
     collection: "bridal",
   },
@@ -119,6 +129,7 @@ const MOCK_PRODUCTS = [
     swatchColor: "#800000",
     imageUrl: "/images/products/bridal-5.png",
     shapes: ["Coffin", "Square"],
+    lengths: ["Medium", "Long"],
     finish: "Glossy",
     collection: "bridal",
   },
@@ -130,6 +141,7 @@ const MOCK_PRODUCTS = [
     swatchColor: "#D4AF37",
     imageUrl: "/images/products/bridal-6.png",
     shapes: ["Stiletto", "Almond"],
+    lengths: ["Long", "XL"],
     finish: "Glitter",
     collection: "bridal",
   },
@@ -140,26 +152,40 @@ interface ProductGridProps {
 }
 
 function ProductGridContent({ collection }: ProductGridProps) {
-  const [shapes] = useQueryState("shape", parseAsArrayOf(parseAsString).withDefault([]));
-  const [finishes] = useQueryState("finish", parseAsArrayOf(parseAsString).withDefault([]));
-  const [lengths] = useQueryState("length", parseAsArrayOf(parseAsString).withDefault([]));
+  const [selectedShape] = useQueryState("shape", parseAsString);
+  const [selectedFinish] = useQueryState("finish", parseAsString);
+  const [selectedLength] = useQueryState("length", parseAsString);
 
   const filteredProducts = useMemo(() => {
     let list = collection 
       ? MOCK_PRODUCTS.filter(p => p.collection === collection)
       : MOCK_PRODUCTS;
 
-    if (shapes.length > 0) {
-      list = list.filter(p => p.shapes.some(s => shapes.includes(s)));
+    if (selectedShape) {
+      const activeShape = selectedShape.toLowerCase().trim();
+      list = list.filter(p => p.shapes.some(s => s.toLowerCase().trim() === activeShape));
     }
-    if (finishes.length > 0) {
-      list = list.filter(p => finishes.includes(p.finish));
+    
+    if (selectedFinish) {
+      const activeFinish = selectedFinish.toLowerCase().trim();
+      list = list.filter(p => p.finish.toLowerCase().trim() === activeFinish);
     }
-    // Note: Mock data doesn't currently support length, but if it did:
-    // if (lengths.length > 0) list = list.filter(p => lengths.includes(p.length));
+    
+    if (selectedLength) {
+      const activeLength = selectedLength.toLowerCase().trim();
+      list = list.filter(p => p.lengths?.some(l => l.toLowerCase().trim() === activeLength));
+    }
+
+    console.log({ 
+      selectedLength, 
+      selectedShape,
+      selectedFinish,
+      totalProducts: MOCK_PRODUCTS.length, 
+      filteredCount: list.length 
+    });
 
     return list;
-  }, [collection, shapes, finishes, lengths]);
+  }, [collection, selectedShape, selectedFinish, selectedLength]);
 
   return (
     <section className="py-12 md:py-20" aria-label="Product Catalog">

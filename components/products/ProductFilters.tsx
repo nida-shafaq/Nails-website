@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Suspense } from "react";
-import { useQueryState, parseAsArrayOf, parseAsString, parseAsInteger } from "nuqs";
+import { useQueryState, parseAsString } from "nuqs";
 import { Filter, X, ChevronDown } from "lucide-react";
 import { SwatchDot } from "@/components/shared/SwatchDot";
 
@@ -19,28 +19,26 @@ const FINISH_COLORS: Record<string, string> = {
 };
 
 function FilterContent() {
-  const [shapes, setShapes] = useQueryState("shape", parseAsArrayOf(parseAsString).withDefault([]));
-  const [lengths, setLengths] = useQueryState("length", parseAsArrayOf(parseAsString).withDefault([]));
-  const [finishes, setFinishes] = useQueryState("finish", parseAsArrayOf(parseAsString).withDefault([]));
+  const [selectedShape, setShape] = useQueryState("shape", parseAsString);
+  const [selectedLength, setLength] = useQueryState("length", parseAsString);
+  const [selectedFinish, setFinish] = useQueryState("finish", parseAsString);
 
   const toggleFilter = (
-    current: string[],
-    setFn: (val: string[] | null) => void,
+    current: string | null,
+    setFn: (val: string | null) => void,
     value: string
   ) => {
-    const next = current.includes(value)
-      ? current.filter((v) => v !== value)
-      : [...current, value];
-    setFn(next.length > 0 ? next : null);
+    // If clicking the already active filter, clear it (deselect)
+    setFn(current === value ? null : value);
   };
 
   const clearAll = () => {
-    setShapes(null);
-    setLengths(null);
-    setFinishes(null);
+    setShape(null);
+    setLength(null);
+    setFinish(null);
   };
 
-  const activeCount = shapes.length + lengths.length + finishes.length;
+  const activeCount = (selectedShape ? 1 : 0) + (selectedLength ? 1 : 0) + (selectedFinish ? 1 : 0);
 
   return (
     <div className="w-full lg:w-64 shrink-0 flex flex-col gap-8 sticky top-28 h-fit max-h-[calc(100vh-120px)] overflow-y-auto pr-2 custom-scrollbar">
@@ -68,8 +66,8 @@ function FilterContent() {
               <SwatchDot
                 color={FINISH_COLORS[finish] || "#000"}
                 size="md"
-                selected={finishes.includes(finish)}
-                onClick={() => toggleFilter(finishes, setFinishes, finish)}
+                selected={selectedFinish === finish}
+                onClick={() => toggleFilter(selectedFinish, setFinish, finish)}
                 label={finish}
               />
               <span className="text-[0.65rem] font-mono text-[--color-ink] uppercase tracking-wider">
@@ -87,9 +85,9 @@ function FilterContent() {
           {SHAPES.map((shape) => (
             <button
               key={shape}
-              onClick={() => toggleFilter(shapes, setShapes, shape)}
+              onClick={() => toggleFilter(selectedShape, setShape, shape)}
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors border ${
-                shapes.includes(shape)
+                selectedShape === shape
                   ? "bg-[--color-obsidian] border-[--color-obsidian] text-white"
                   : "bg-transparent border-[--color-chrome] text-[--color-ink] hover:border-[--color-obsidian] hover:text-[--color-obsidian]"
               }`}
@@ -107,9 +105,9 @@ function FilterContent() {
           {LENGTHS.map((length) => (
             <button
               key={length}
-              onClick={() => toggleFilter(lengths, setLengths, length)}
+              onClick={() => toggleFilter(selectedLength, setLength, length)}
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors border ${
-                lengths.includes(length)
+                selectedLength === length
                   ? "bg-[--color-obsidian] border-[--color-obsidian] text-white"
                   : "bg-transparent border-[--color-chrome] text-[--color-ink] hover:border-[--color-obsidian] hover:text-[--color-obsidian]"
               }`}
