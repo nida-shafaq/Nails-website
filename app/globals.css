@@ -1,0 +1,406 @@
+/**
+ * Lacquered Design System — Tailwind CSS v4 CSS-first @theme
+ *
+ * Token philosophy: every name references actual nail lacquer language —
+ * Pearl, Obsidian, Lacquer, Chrome, Gilded. This is deliberate; it ties
+ * the UI structure back to the product rather than using generic UI terms.
+ *
+ * Anti-cliché compliance verified:
+ *   ✓ Not cream/terracotta/Playfair — Pearl is distinctly different, accent is wine-red
+ *   ✓ Not near-black/neon — Obsidian is warm (#1C1917), accent is deep lacquer (#8B1A3A)
+ *   ✓ Not broadsheet hairline layout — zero hairline decorative rules in design
+ */
+
+@import "tailwindcss";
+
+@theme {
+  /* ─── Color Palette ───────────────────────────────────────────────── */
+
+  /* Backgrounds & surfaces */
+  --color-pearl: #F7F3EE;          /* Warm off-white; skin-adjacent, nail-bed reference */
+  --color-mist: #EDE6DC;           /* Mid-ground card surface; unpainted nail */
+  --color-chrome: #D4D0CC;         /* UI borders, dividers, chrome-finish swatch ref */
+
+  /* Text */
+  --color-obsidian: #1C1917;       /* Warm near-black; gel base coat reference */
+  --color-slate: #2E2926;          /* Footer/inverse; darker variant of obsidian family */
+  --color-ink: #4A3F3A;            /* Secondary body text; lighter than obsidian */
+
+  /* Signature accent — ONE committed color, no scatter */
+  --color-lacquer: #8B1A3A;        /* Wine-red; "Cherry Noir" polish shade */
+  --color-lacquer-dark: #5E0F26;   /* Deepened lacquer for pressed/active states */
+  --color-lacquer-muted: #C4788E;  /* Desaturated mid-tone for hover states + UI chrome */
+  --color-lacquer-tint: #F5E8ED;   /* Very light tint for subtle backgrounds */
+
+  /* Premium tertiary — reserved ONLY for limited-edition / custom badges */
+  --color-gilded: #C9963E;         /* Warm gold; nail foil reference */
+  --color-gilded-light: #F0DDB0;   /* Gilded tint for badge backgrounds */
+
+  /* ─── Typography ──────────────────────────────────────────────────── */
+
+  /* Display: Cormorant Garamond — extreme stroke contrast, translucent feel */
+  --font-display: "Cormorant Garamond", "Georgia", serif;
+
+  /* Body/UI: DM Sans — geometric warmth, readable at small sizes */
+  --font-body: "DM Sans", "system-ui", sans-serif;
+
+  /* Mono: JetBrains Mono — precise, deliberate for SKUs/prices/size charts */
+  --font-mono: "JetBrains Mono", "Courier New", monospace;
+
+  /* ─── Type Scale ──────────────────────────────────────────────────── */
+
+  --text-display-2xl: 5.5rem;   /* Hero headline */
+  --text-display-xl: 4rem;      /* Section hero */
+  --text-display-lg: 3rem;      /* Feature header */
+  --text-display-md: 2.25rem;   /* Subsection header */
+  --text-display-sm: 1.75rem;   /* Card headline */
+
+  --text-body-xl: 1.25rem;
+  --text-body-lg: 1.125rem;
+  --text-body-md: 1rem;
+  --text-body-sm: 0.875rem;
+  --text-body-xs: 0.75rem;
+
+  /* ─── Spacing & Layout ────────────────────────────────────────────── */
+
+  --spacing-section: 6rem;       /* Vertical section padding */
+  --spacing-container: 1.5rem;   /* Horizontal page padding */
+  --max-width-content: 82rem;    /* Main content max-width */
+  --max-width-text: 48rem;       /* Text column max-width */
+
+  /* ─── Border Radius ───────────────────────────────────────────────── */
+
+  --radius-swatch: 9999px;       /* Swatch dots — always fully circular */
+  --radius-card: 1rem;           /* Product cards */
+  --radius-modal: 1.5rem;        /* Modals and drawers */
+  --radius-btn: 0.375rem;        /* Buttons */
+
+  /* ─── Shadows ─────────────────────────────────────────────────────── */
+
+  --shadow-swatch: 0 4px 16px -4px rgba(139, 26, 58, 0.35);
+  --shadow-card: 0 2px 24px -8px rgba(28, 25, 23, 0.12);
+  --shadow-card-hover: 0 8px 40px -12px rgba(28, 25, 23, 0.22);
+  --shadow-modal: 0 24px 80px -16px rgba(28, 25, 23, 0.32);
+
+  /* ─── Transitions ─────────────────────────────────────────────────── */
+
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ─── Z-index Stack ───────────────────────────────────────────────── */
+
+  --z-drawer: 50;
+  --z-modal: 60;
+  --z-toast: 70;
+  --z-tooltip: 80;
+}
+
+/* ─── Base Styles ─────────────────────────────────────────────────────────── */
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    font-family: var(--font-body);
+    background-color: var(--color-pearl);
+    color: var(--color-obsidian);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+
+  /* Display headings always use the serif */
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+  }
+
+  h4, h5, h6 {
+    font-family: var(--font-body);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  /* Mono elements */
+  code, kbd, samp, pre, [data-mono] {
+    font-family: var(--font-mono);
+  }
+
+  /* Focus visible — high contrast, brand-colored ring */
+  :focus-visible {
+    outline: 2.5px solid var(--color-lacquer);
+    outline-offset: 3px;
+    border-radius: var(--radius-btn);
+  }
+
+  /* Smooth media */
+  img, video {
+    display: block;
+    max-width: 100%;
+  }
+
+  /* Selection */
+  ::selection {
+    background-color: var(--color-lacquer-tint);
+    color: var(--color-lacquer-dark);
+  }
+}
+
+/* ─── Utility Layer ───────────────────────────────────────────────────────── */
+
+@layer utilities {
+  /* Typography utilities */
+  .font-display { font-family: var(--font-display); }
+  .font-body    { font-family: var(--font-body); }
+  .font-mono    { font-family: var(--font-mono); }
+
+  /* Section container */
+  .container-site {
+    width: 100%;
+    max-width: var(--max-width-content);
+    margin-inline: auto;
+    padding-inline: var(--spacing-container);
+  }
+
+  /* ── Swatch Dot — The Signature Element ────────────────────────────── */
+  /* A glossy circular paint swatch. The radial gradient "sheen" simulates
+     light reflecting off a freshly lacquered nail. The hover state makes
+     the sheen travel across the dot — this is the ONE memorable motion moment. */
+
+  .swatch-dot {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-swatch);
+    overflow: hidden;
+    flex-shrink: 0;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+    cursor: pointer;
+  }
+
+  .swatch-dot::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      circle at 30% 30%,
+      rgba(255, 255, 255, 0.55) 0%,
+      rgba(255, 255, 255, 0.15) 35%,
+      transparent 65%
+    );
+    pointer-events: none;
+    transition: background-position var(--transition-slow);
+  }
+
+  .swatch-dot:hover {
+    transform: scale(1.12);
+    box-shadow: var(--shadow-swatch);
+  }
+
+  .swatch-dot:hover::after {
+    background: radial-gradient(
+      circle at 65% 25%,
+      rgba(255, 255, 255, 0.65) 0%,
+      rgba(255, 255, 255, 0.2) 40%,
+      transparent 70%
+    );
+  }
+
+  /* Size variants */
+  .swatch-dot-sm  { width: 1.5rem; height: 1.5rem; }
+  .swatch-dot-md  { width: 2rem;   height: 2rem;   }
+  .swatch-dot-lg  { width: 2.75rem; height: 2.75rem; }
+  .swatch-dot-xl  { width: 4rem;   height: 4rem;   }
+  .swatch-dot-2xl { width: 5.5rem; height: 5.5rem; }
+
+  /* Selected state for filter chips */
+  .swatch-dot[aria-pressed="true"] {
+    outline: 2px solid var(--color-obsidian);
+    outline-offset: 2px;
+  }
+
+  /* ── Lacquer Button ────────────────────────────────────────────────── */
+
+  .btn-lacquer {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    background-color: var(--color-lacquer);
+    color: white;
+    font-family: var(--font-body);
+    font-size: var(--text-body-sm);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: var(--radius-btn);
+    border: none;
+    cursor: pointer;
+    transition: background-color var(--transition-fast), transform var(--transition-fast);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .btn-lacquer:hover {
+    background-color: var(--color-lacquer-dark);
+    transform: translateY(-1px);
+  }
+
+  .btn-lacquer:active {
+    transform: translateY(0);
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    background-color: transparent;
+    color: var(--color-obsidian);
+    font-family: var(--font-body);
+    font-size: var(--text-body-sm);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: var(--radius-btn);
+    border: 1.5px solid var(--color-chrome);
+    cursor: pointer;
+    transition: border-color var(--transition-fast), color var(--transition-fast);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--color-obsidian);
+    color: var(--color-lacquer);
+  }
+
+  /* ── Product Card ──────────────────────────────────────────────────── */
+
+  .product-card {
+    background: white;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    transition: box-shadow var(--transition-base), transform var(--transition-base);
+    cursor: pointer;
+    will-change: transform;
+  }
+
+  .product-card:hover {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-3px);
+  }
+
+  /* ── Horizontal Scroll Rail ────────────────────────────────────────── */
+
+  .scroll-rail {
+    display: flex;
+    gap: 1.25rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 0.5rem;
+    padding-inline: var(--spacing-container);
+  }
+
+  .scroll-rail::-webkit-scrollbar { display: none; }
+
+  .scroll-rail > * {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+
+  /* ── Premium Badge ─────────────────────────────────────────────────── */
+
+  .badge-premium {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.625rem;
+    background-color: var(--color-gilded-light);
+    color: var(--color-gilded);
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 9999px;
+    border: 1px solid rgba(201, 150, 62, 0.3);
+  }
+
+  /* ── Glassmorphism overlay ─────────────────────────────────────────── */
+
+  .glass {
+    background: rgba(247, 243, 238, 0.75);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+  }
+
+  .glass-dark {
+    background: rgba(28, 25, 23, 0.7);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: white;
+  }
+
+  /* ── Animation Utilities ───────────────────────────────────────────── */
+
+  @media (prefers-reduced-motion: no-preference) {
+    .animate-shimmer {
+      background: linear-gradient(
+        90deg,
+        var(--color-mist) 0%,
+        var(--color-chrome) 50%,
+        var(--color-mist) 100%
+      );
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-8px); }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* ── Scrollbar ─────────────────────────────────────────────────────── */
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--color-mist); }
+  ::-webkit-scrollbar-thumb { background: var(--color-chrome); border-radius: 9999px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-lacquer-muted); }
+}

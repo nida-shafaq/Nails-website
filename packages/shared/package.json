@@ -1,0 +1,9 @@
+{
+  "name": "@lacquered/shared",
+  "version": "0.1.0",
+  "main": "./src/schemas/index.ts",
+  "types": "./src/schemas/index.ts",
+  "dependencies": {
+    "zod": "^3.23.8"
+  }
+}
