@@ -89,10 +89,12 @@ export default async function RootLayout({ children }: RootLayoutProps) {
     >
       <head>
         {/* Cloudflare Web Analytics — cookieless, no consent banner */}
-        <Script
-          src="https://static.cloudflareinsights.com/beacon.min.js"
-          data-cf-beacon={`{"token": "${process.env.NEXT_PUBLIC_CF_ANALYTICS_TOKEN}"}`}
-        />
+        {process.env.NODE_ENV === "production" && (
+          <Script
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon={`{"token": "${process.env.NEXT_PUBLIC_CF_ANALYTICS_TOKEN}"}`}
+          />
+        )}
       </head>
       <body className="min-h-full flex flex-col" style={{
         fontFamily: "var(--font-body-loaded, var(--font-body))",

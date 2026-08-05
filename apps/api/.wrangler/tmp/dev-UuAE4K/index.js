@@ -17187,6 +17187,10 @@ var customOrders = sqliteTable("custom_orders", {
   status: text("status", {
     enum: ["submitted", "in_design", "ready", "shipped", "cancelled"]
   }).notNull().default("submitted"),
+  /** Artisan crafting notes/color codes */
+  internalNotes: text("internal_notes"),
+  /** Shipping tracking ID */
+  trackingId: text("tracking_id"),
   ...timestamps
 });
 var orders = sqliteTable("orders", {
@@ -27504,18 +27508,19 @@ adminRouter.use("/*", async (c, next) => {
 });
 adminRouter.get("/stats", async (c) => {
   const db = c.get("db");
-  const revenueResult = await db.select({ total: sql`sum(total_in_cents)` }).from(orders).where(eq(orders.paymentStatus, "paid"));
+  const revenueResult = await db.select({ total: sql`coalesce(sum(total_in_cents), 0)` }).from(orders).where(eq(orders.paymentStatus, "paid"));
   const totalRevenue = revenueResult[0]?.total || 0;
-  const pendingOrders = await db.select({ count: sql`count(*)` }).from(customOrders).where(eq(customOrders.status, "submitted"));
+  const pendingOrders = await db.select({ count: sql`count(*)` }).from(customOrders).where(inArray(customOrders.status, ["submitted", "in_design"]));
   const pendingCount = pendingOrders[0]?.count || 0;
   const totalOrdersResult = await db.select({ count: sql`count(*)` }).from(orders);
-  const lowStock = await db.select({ count: sql`count(*)` }).from(products).where(sql`stock_quantity > -1 AND stock_quantity < 5`);
+  const lowStockProducts = await db.select().from(products).where(sql`stock_quantity > -1 AND stock_quantity <= 5`);
   return c.json({
     totalRevenue: totalRevenue / 100,
     // format to dollars
     pendingCustomOrders: pendingCount,
     totalOrders: totalOrdersResult[0]?.count || 0,
-    lowStockAlerts: lowStock[0]?.count || 0
+    lowStockAlerts: lowStockProducts.length,
+    lowStockProducts
   });
 });
 adminRouter.get("/products", async (c) => {
@@ -27541,11 +27546,11 @@ adminRouter.get("/custom-orders", async (c) => {
   const allCustomOrders = await db.select().from(customOrders).orderBy(desc(customOrders.createdAt));
   return c.json(allCustomOrders);
 });
-adminRouter.patch("/custom-orders/:id/status", async (c) => {
+adminRouter.patch("/custom-orders/:id", async (c) => {
   const db = c.get("db");
   const id2 = c.req.param("id");
-  const { status } = await c.req.json();
-  const updated = await db.update(customOrders).set({ status, updatedAt: (/* @__PURE__ */ new Date()).toISOString() }).where(eq(customOrders.id, id2)).returning();
+  const body = await c.req.json();
+  const updated = await db.update(customOrders).set({ ...body, updatedAt: (/* @__PURE__ */ new Date()).toISOString() }).where(eq(customOrders.id, id2)).returning();
   return c.json(updated[0]);
 });
 adminRouter.get("/orders", async (c) => {

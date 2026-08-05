@@ -98,6 +98,10 @@ export const customOrders = sqliteTable("custom_orders", {
   })
     .notNull()
     .default("submitted"),
+  /** Artisan crafting notes/color codes */
+  internalNotes: text("internal_notes"),
+  /** Shipping tracking ID */
+  trackingId: text("tracking_id"),
   ...timestamps,
 });
 

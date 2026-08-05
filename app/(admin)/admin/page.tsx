@@ -13,14 +13,9 @@ import {
 } from "lucide-react";
 import { OverviewChart } from "@/components/admin/OverviewChart";
 import { formatPrice } from "@/lib/utils";
+import { DashboardKPIs } from "@/components/admin/DashboardKPIs";
 
-// Mock Data for MVP
-const KPIs = [
-  { title: "Total Revenue", value: 1245000, type: "currency", change: "+12.5%", icon: TrendingUp },
-  { title: "Pending Custom", value: 14, type: "number", change: "3 urgent", icon: Paintbrush },
-  { title: "Total Orders", value: 342, type: "number", change: "+5.2%", icon: ShoppingBag },
-  { title: "Low Stock", value: 3, type: "number", change: "Needs restock", icon: AlertCircle, alert: true },
-];
+// We'll fetch real KPI data from the API now.
 
 const RECENT_ACTIVITY = [
   { id: 1, type: "order", text: "New order #1042 placed by Sarah J.", time: "10 mins ago" },
@@ -30,6 +25,7 @@ const RECENT_ACTIVITY = [
 ];
 
 export default function AdminDashboardPage() {
+
   return (
     <div className="flex flex-col gap-8 max-w-6xl mx-auto">
       {/* Header & Quick Actions */}
@@ -42,33 +38,14 @@ export default function AdminDashboardPage() {
           <Link href="/admin/catalog?action=new" className="flex items-center gap-2 px-4 py-2.5 bg-white border border-[--color-chrome] text-[--color-obsidian] rounded-full text-sm font-medium hover:bg-[--color-mist] transition-colors">
             <Plus size={16} /> New Product
           </Link>
-          <Link href="/admin/custom-orders" className="flex items-center gap-2 px-4 py-2.5 bg-[--color-obsidian] text-white rounded-full text-sm font-medium hover:opacity-90 transition-opacity shadow-md">
+          <Link href="/admin/custom" className="flex items-center gap-2 px-4 py-2.5 bg-obsidian text-white rounded-full text-sm font-medium hover:bg-black transition-colors shadow-md">
             Review Custom <ArrowRight size={16} />
           </Link>
         </div>
       </div>
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {KPIs.map((kpi) => (
-          <div key={kpi.title} className="bg-white rounded-2xl p-6 border border-[--color-chrome] shadow-sm">
-            <div className="flex items-start justify-between mb-4">
-              <div className={`p-2 rounded-xl ${kpi.alert ? 'bg-red-100 text-red-600' : 'bg-[--color-mist] text-[--color-obsidian]'}`}>
-                <kpi.icon size={20} />
-              </div>
-              <span className={`text-xs font-medium px-2 py-1 rounded-full ${kpi.alert ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
-                {kpi.change}
-              </span>
-            </div>
-            <div>
-              <p className="text-sm text-[--color-ink] mb-1">{kpi.title}</p>
-              <h3 className="text-2xl font-display text-[--color-obsidian]">
-                {kpi.type === 'currency' ? formatPrice(kpi.value) : kpi.value}
-              </h3>
-            </div>
-          </div>
-        ))}
-      </div>
+      {/* KPI Cards (Client Component with Skeleton) */}
+      <DashboardKPIs />
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

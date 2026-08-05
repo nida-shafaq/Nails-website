@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { HonoContext } from "../index";
 import { products, customOrders, orders, reviews } from "../db/schema";
-import { eq, desc, sql } from "drizzle-orm";
+import { eq, desc, sql, inArray } from "drizzle-orm";
 
 export const adminRouter = new Hono<HonoContext>();
 
@@ -22,7 +22,7 @@ adminRouter.get("/stats", async (c) => {
   
   // Total Revenue (Paid orders)
   const revenueResult = await db
-    .select({ total: sql<number>`sum(total_in_cents)` })
+    .select({ total: sql<number>`coalesce(sum(total_in_cents), 0)` })
     .from(orders)
     .where(eq(orders.paymentStatus, "paid"));
   const totalRevenue = revenueResult[0]?.total || 0;
@@ -31,7 +31,7 @@ adminRouter.get("/stats", async (c) => {
   const pendingOrders = await db
     .select({ count: sql<number>`count(*)` })
     .from(customOrders)
-    .where(eq(customOrders.status, "submitted"));
+    .where(inArray(customOrders.status, ["submitted", "in_design"]));
   const pendingCount = pendingOrders[0]?.count || 0;
 
   // Total Orders
@@ -39,17 +39,18 @@ adminRouter.get("/stats", async (c) => {
     .select({ count: sql<number>`count(*)` })
     .from(orders);
   
-  // Low Stock Alerts (< 5)
-  const lowStock = await db
-    .select({ count: sql<number>`count(*)` })
+  // Low Stock Alerts (<= 5)
+  const lowStockProducts = await db
+    .select()
     .from(products)
-    .where(sql`stock_quantity > -1 AND stock_quantity < 5`);
+    .where(sql`stock_quantity > -1 AND stock_quantity <= 5`);
 
   return c.json({
     totalRevenue: totalRevenue / 100, // format to dollars
     pendingCustomOrders: pendingCount,
     totalOrders: totalOrdersResult[0]?.count || 0,
-    lowStockAlerts: lowStock[0]?.count || 0,
+    lowStockAlerts: lowStockProducts.length,
+    lowStockProducts: lowStockProducts,
   });
 });
 
@@ -82,11 +83,15 @@ adminRouter.get("/custom-orders", async (c) => {
   return c.json(allCustomOrders);
 });
 
-adminRouter.patch("/custom-orders/:id/status", async (c) => {
+adminRouter.patch("/custom-orders/:id", async (c) => {
   const db = c.get("db");
   const id = c.req.param("id");
-  const { status } = await c.req.json();
-  const updated = await db.update(customOrders).set({ status, updatedAt: new Date().toISOString() }).where(eq(customOrders.id, id)).returning();
+  const body = await c.req.json();
+  const updated = await db
+    .update(customOrders)
+    .set({ ...body, updatedAt: new Date().toISOString() })
+    .where(eq(customOrders.id, id))
+    .returning();
   return c.json(updated[0]);
 });
 
