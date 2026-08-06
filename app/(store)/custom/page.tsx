@@ -21,7 +21,11 @@ interface GalleryItem {
 
 async function getGalleryItems(): Promise<GalleryItem[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8787"}/api/v1/custom-orders/gallery`, {
+    const baseUrl = process.env.NODE_ENV === "development" 
+      ? (process.env.API_URL || "http://127.0.0.1:8787")
+      : "https://nailvibe-api.nidawasilay.workers.dev";
+
+    const res = await fetch(`${baseUrl}/api/v1/custom-orders/gallery`, {
       next: { revalidate: 60 }
     });
     if (!res.ok) return [];
