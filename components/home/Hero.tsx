@@ -149,7 +149,7 @@ export function Hero() {
             transition={transition(0.65)}
             className="flex flex-wrap items-center gap-3 mb-12"
           >
-            <Link href="/products" className="btn-lacquer gap-2 py-3.5 px-6 text-sm">
+            <Link href="/shop" className="btn-lacquer gap-2 py-3.5 px-6 text-sm">
               Shop the Collection
               <ArrowRight size={14} aria-hidden="true" />
             </Link>

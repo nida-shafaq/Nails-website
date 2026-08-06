@@ -124,7 +124,7 @@ export function CartDrawer() {
                     Let&apos;s change that. Find a set that speaks to you.
                   </p>
                 </div>
-                <Link href="/products" onClick={closeCart} className="btn-lacquer">
+                <Link href="/shop" onClick={closeCart} className="btn-lacquer">
                   Browse Nail Sets
                 </Link>
               </div>
@@ -246,7 +246,7 @@ export function CartDrawer() {
                   >
                     <span>✦</span>
                     <span>Add a nail care kit — adhesive, file, and cuticle oil</span>
-                    <Link href="/products?collection=kits" onClick={closeCart} className="ml-auto underline shrink-0">
+                    <Link href="/shop?collection=kits" onClick={closeCart} className="ml-auto underline shrink-0">
                       Add
                     </Link>
                   </div>
