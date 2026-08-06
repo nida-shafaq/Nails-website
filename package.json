@@ -6,6 +6,9 @@
     "apps/*",
     "packages/*"
   ],
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -41,7 +44,7 @@
     "@cloudflare/next-on-pages": "1.13.15",
     "@cloudflare/workers-types": "^4.20250129.0",
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/node": "^22",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "eslint": "^8.57.0",
