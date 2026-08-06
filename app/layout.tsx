@@ -5,6 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import Script from "next/script";
 
+export const runtime = "edge";
+
 /**
  * Font loading strategy:
  * - Cormorant Garamond: display-only, subset to latin, swap display
